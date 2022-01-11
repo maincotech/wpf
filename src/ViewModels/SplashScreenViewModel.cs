@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Maincotech;
+using WpfTemplate.Models;
 
 namespace WpfTemplate.ViewModels
 {
@@ -27,7 +29,8 @@ namespace WpfTemplate.ViewModels
             try
             {
                 AppCenter.Start("{Your App Secret}", typeof(Analytics), typeof(Crashes));
-                
+
+                CreateDatabase();
                 //ToDo: add the logic to initialize the application.
                 Task.Delay(10000);
                 onInitialized?.Invoke();
@@ -36,6 +39,12 @@ namespace WpfTemplate.ViewModels
             {
                 onError?.Invoke(ex);
             }
+        }
+
+        private void CreateDatabase()
+        {
+            var dbContext = AppRuntimeContext.Current.Resolve<AppDbContext>();
+            dbContext.Database.EnsureCreated();
         }
     }
 }
