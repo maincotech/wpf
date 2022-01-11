@@ -44,6 +44,7 @@ namespace WpfTemplate.ViewModels
 
         private void CreateDatabase()
         {
+            CurrentStatus = "Start to create database";
             var dbContext = AppRuntimeContext.Current.Resolve<AppDbContext>();
             dbContext.Database.EnsureCreated();
 
@@ -54,6 +55,7 @@ namespace WpfTemplate.ViewModels
                 //ToDo: Add your settings here.
                 dbContext.SaveChanges();
             }
+            CurrentStatus = "The database has been created.";
         }
     }
 }
