@@ -1,10 +1,11 @@
-﻿using ReactiveUI;
-using System;
-using System.Threading.Tasks;
+﻿using Maincotech;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
-using Maincotech;
+using ReactiveUI;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using WpfTemplate.Models;
 
 namespace WpfTemplate.ViewModels
@@ -45,6 +46,14 @@ namespace WpfTemplate.ViewModels
         {
             var dbContext = AppRuntimeContext.Current.Resolve<AppDbContext>();
             dbContext.Database.EnsureCreated();
+
+            var versionSetting = dbContext.DbSettingInfoes.FirstOrDefault(x => x.Name == "Version");
+            if (versionSetting == null)
+            {
+                dbContext.DbSettingInfoes.Add(new DbSettingInfo { Name = "Version", Value = "V1", Description = "The version of the db." });
+                //ToDo: Add your settings here.
+                dbContext.SaveChanges();
+            }
         }
     }
 }
